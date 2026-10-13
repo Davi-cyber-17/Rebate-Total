@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#03060d">
+  <title>Rebate Total</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- camadas decorativas -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <main class="app">
+
+    <!-- ========== MENU ========== -->
+    <section id="screen-menu" class="screen active">
+      <div class="card">
+        <p class="eyebrow"><i class="blink"></i> ARENA DIGITAL // ONLINE</p>
+        <h1 class="logo"><span class="l1">Rebate</span><span class="l2">Total</span></h1>
+        <p class="subtitle">Duelo neon em tempo real. Jogue no computador, celular ou tablet.</p>
+
+        <div class="stack">
+          <button class="btn btn-cyan big" id="btn-online">
+            Modo Online
+            <small>Salas de 2 a 4 jogadores</small>
+          </button>
+          <button class="btn btn-pink big" id="btn-local">
+            Modo Local
+            <small>2 jogadores ou contra a IA</small>
+          </button>
+        </div>
+
+        <ul class="chips">
+          <li>Multiplataforma</li>
+          <li>2 a 4 jogadores</li>
+          <li>Sem instalar</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== MODO LOCAL ========== -->
+    <section id="screen-local" class="screen">
+      <div class="card">
+        <p class="eyebrow">// MODO LOCAL</p>
+        <h2>Escolha a partida</h2>
+
+        <label class="field">
+          <span>Pontos para vencer</span>
+          <select id="local-pts">
+            <option value="5">5</option>
+            <option value="7" selected>7</option>
+            <option value="10">10</option>
+          </select>
+        </label>
+
+        <div class="stack">
+          <button class="btn btn-cyan" id="btn-local-2p">
+            2 Jogadores
+            <small>P1: W A S D &nbsp;|&nbsp; P2: setas. No celular, cada um toca na sua metade.</small>
+          </button>
+
+          <div class="ai-box">
+            <span class="ai-title">Jogar contra a IA</span>
+            <div class="row">
+              <button class="btn btn-pink-outline" data-diff="easy">Fácil</button>
+              <button class="btn btn-pink-outline" data-diff="medium">Médio</button>
+              <button class="btn btn-pink-outline" data-diff="hard">Difícil</button>
+            </div>
+            <small>Mouse, toque ou W A S D / setas.</small>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost" data-back="menu">Voltar</button>
+      </div>
+    </section>
+
+    <!-- ========== MODO ONLINE ========== -->
+    <section id="screen-online" class="screen">
+      <div class="card">
+        <p class="eyebrow">// MODO ONLINE</p>
+        <h2>Entrar na arena</h2>
+
+        <label class="field">
+          <span>Seu nome</span>
+          <input id="player-name" type="text" maxlength="12" placeholder="Jogador" autocomplete="off">
+        </label>
+
+        <div class="stack">
+          <button class="btn btn-cyan" id="btn-create">Criar sala</button>
+
+          <div class="divider"><span>ou</span></div>
+
+          <div class="join-box">
+            <input id="room-code" type="text" maxlength="5" placeholder="CÓDIGO" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text">
+            <button class="btn btn-pink" id="btn-join">Entrar</button>
+          </div>
+        </div>
+
+        <p class="hint" id="online-status"></p>
+        <p class="hint">Funciona entre celular, tablet e computador. Todos abrem o mesmo site e usam o mesmo código.</p>
+        <button class="btn btn-ghost" data-back="menu">Voltar</button>
+      </div>
+    </section>
+
+    <!-- ========== SALA (LOBBY) ========== -->
+    <section id="screen-lobby" class="screen">
+      <div class="card">
+        <p class="eyebrow">// SALA DE ESPERA</p>
+
+        <div class="code-box">
+          <span class="code-label">Código da sala</span>
+          <strong id="lobby-code">-----</strong>
+          <div class="row">
+            <button class="btn btn-small" id="btn-copy-code">Copiar código</button>
+            <button class="btn btn-small" id="btn-copy-link">Compartilhar link</button>
+          </div>
+        </div>
+
+        <ul id="lobby-list" class="lobby-list"></ul>
+
+        <label class="field">
+          <span>Pontos para vencer</span>
+          <select id="lobby-pts">
+            <option value="5">5</option>
+            <option value="7" selected>7</option>
+            <option value="10">10</option>
+          </select>
+        </label>
+
+        <p class="hint" id="lobby-hint"></p>
+
+        <div class="stack">
+          <button class="btn btn-cyan" id="btn-start">Iniciar partida</button>
+          <button class="btn btn-ghost" id="btn-leave">Sair da sala</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== JOGO ========== -->
+    <section id="screen-game" class="screen">
+      <div class="game-frame">
+        <div class="hud" id="hud"></div>
+
+        <div class="canvas-wrap">
+          <canvas id="canvas"></canvas>
+          <div id="overlay" class="overlay hidden">
+            <div class="overlay-box">
+              <h2 id="overlay-title"></h2>
+              <p id="overlay-sub"></p>
+              <div class="row">
+                <button class="btn btn-cyan" id="btn-again">Jogar de novo</button>
+                <button class="btn btn-pink-outline" id="btn-menu">Menu</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-footer">
+          <button class="btn btn-pink-outline" id="btn-exit">Sair do jogo</button>
+          <span class="net-badge" id="net-badge"></span>
+          <button class="icon-btn" id="btn-mute" aria-label="Ligar ou desligar o som">Som: ON</button>
+          <button class="icon-btn" id="btn-full" aria-label="Tela cheia">Tela cheia</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- PeerJS: conexão direta entre os jogadores (WebRTC), funciona em qualquer navegador moderno -->
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
